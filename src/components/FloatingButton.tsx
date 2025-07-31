@@ -3,12 +3,7 @@
 
 import React, { useEffect } from 'react'
 import Image from 'next/image';
-// import annyang from 'annyang';
-declare const annyang: {
-    addCommands: (commands: { [key: string]: () => void }) => void;
-    start: () => void;
-    abort: () => void;
-} | undefined;
+declare const annyang: any;
 
 
 const FloatingButton = () => {
