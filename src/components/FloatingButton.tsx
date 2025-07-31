@@ -1,13 +1,13 @@
 // src/components/FloatingButton.tsx
-'use client'; 
+'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-// Annyang-ın tip interfeysini import etməyə ehtiyac qalmır, çünki 'any' istifadə edəcəyik
-// import * as AnnyangModule from 'annyang'; // Bu sətri silin və ya şərhə alın
-
 const FloatingButton = () => {
+    // Mikrofon dəstəyini izləmək üçün state
+    const [isSpeechRecognitionSupported, setIsSpeechRecognitionSupported] = useState(false);
+
     const handleScrollonTop = () => {
         if (typeof window !== 'undefined') {
             window.scrollTo({
@@ -50,14 +50,15 @@ const FloatingButton = () => {
     useEffect(() => {
         // annyangInstance üçün tipi `any` olaraq təyin edirik
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let annyangInstance: any; 
+        let annyangInstance: any;
 
-        if (typeof window !== 'undefined' && window.SpeechRecognition) {
+        // Speech Recognition API dəstəyini yoxlayın
+        if (typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition)) {
+            setIsSpeechRecognitionSupported(true); // API dəstəklənir
+
             import('annyang')
                 .then((module) => {
-                    // Modulun default exportu varsa onu, yoxdursa modulu özünü istifadə edirik.
-                    // Və onu 'any' tipinə cast edirik.
-                    annyangInstance = (module.default || module) as any; 
+                    annyangInstance = (module.default || module) as any;
 
                     if (annyangInstance) {
                         console.log("Annyang successfully imported and initialized.");
@@ -71,13 +72,16 @@ const FloatingButton = () => {
                         annyangInstance.start();
                     } else {
                         console.error("Annyang module is undefined after import.");
+                        setIsSpeechRecognitionSupported(false); // Annyang yüklənməsə dəstəyi sıfırla
                     }
                 })
                 .catch((error) => {
                     console.error("Failed to load annyang:", error);
+                    setIsSpeechRecognitionSupported(false); // Yüklənmə uğursuz olsa dəstəyi sıfırla
                 });
         } else {
             console.warn("Speech Recognition API is not supported in this browser or environment.");
+            setIsSpeechRecognitionSupported(false); // API dəstəklənmir
         }
 
         return () => {
@@ -91,18 +95,38 @@ const FloatingButton = () => {
     return (
         <div className=''>
             <div className="fixed bottom-10 right-10">
-                <button onClick={handleScrollonTop} id='voice-btn'>
+                <button
+                    onClick={handleScrollonTop}
+                    id='voice-btn'
+                    // Əgər Speech Recognition dəstəklənmirsə, düyməni deaktiv edin
+                    disabled={!isSpeechRecognitionSupported}
+                    className={`${!isSpeechRecognitionSupported ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
                     <Image
                         src="/images/upbuttonimage.png"
                         alt="Up Arrow"
-                        width={100}
-                        height={140}
+                        // Optimal ölçülər üçün width və height-i birgə qeyd edin
+                        width={100} // Bu ölçüləri öz ehtiyacınıza görə dəyişə bilərsiniz
+                        height={100} // Şəkilin aspekt nisbətini qorumaq üçün eyni dəyər seçdim (square image üçün)
                         className="hover:scale-110 transition-transform duration-300"
                     />
                 </button>
+                {!isSpeechRecognitionSupported && (
+                    <p className="text-red-500 text-xs mt-2 text-center max-w-[100px]">
+                        Səs əmrləri dəstəklənmir. (Brauzer/Cihaz)
+                    </p>
+                )}
             </div>
             <div className="fixed bottom-8 right-28">
-                <Image id="ball" src="/images/ball.png" width={30} height={30} alt="ball" />
+                <Image
+                    id="ball"
+                    src="/images/ball.png"
+                    width={30}
+                    height={30}
+                    alt="ball"
+                    // 'ball' şəkli üçün də width/height balansını qoruyun
+                    className="object-contain" // Aspect ratio-nu qorumaq üçün object-contain əlavə etdim
+                />
             </div>
         </div>
     );
