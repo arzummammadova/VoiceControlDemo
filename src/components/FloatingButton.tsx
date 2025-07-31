@@ -3,8 +3,9 @@
 
 import React, { useEffect } from 'react';
 import Image from 'next/image';
-// Annyang-ın tip interfeysini import edirik
-import * as AnnyangModule from 'annyang'; // Bütün Annyang modulunu import edirik
+
+// Annyang-ın tip interfeysini import etməyə ehtiyac qalmır, çünki 'any' istifadə edəcəyik
+// import * as AnnyangModule from 'annyang'; // Bu sətri silin və ya şərhə alın
 
 const FloatingButton = () => {
     const handleScrollonTop = () => {
@@ -47,15 +48,16 @@ const FloatingButton = () => {
     };
 
     useEffect(() => {
-        // annyangInstance üçün tipi AnnyangModule.Annyang olaraq təyin edirik
-        let annyangInstance: AnnyangModule.Annyang | undefined; 
+        // annyangInstance üçün tipi `any` olaraq təyin edirik
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let annyangInstance: any; 
 
         if (typeof window !== 'undefined' && window.SpeechRecognition) {
             import('annyang')
                 .then((module) => {
                     // Modulun default exportu varsa onu, yoxdursa modulu özünü istifadə edirik.
-                    // Və onu AnnyangModule.Annyang tipinə cast edirik.
-                    annyangInstance = (module.default || module) as AnnyangModule.Annyang; 
+                    // Və onu 'any' tipinə cast edirik.
+                    annyangInstance = (module.default || module) as any; 
 
                     if (annyangInstance) {
                         console.log("Annyang successfully imported and initialized.");
