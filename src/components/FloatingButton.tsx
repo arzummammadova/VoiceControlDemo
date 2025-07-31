@@ -1,11 +1,9 @@
-// src/components/FloatingButton.tsx
 'use client';
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 const FloatingButton = () => {
-    // Mikrofon dəstəyini izləmək üçün state
     const [isSpeechRecognitionSupported, setIsSpeechRecognitionSupported] = useState(false);
 
     const handleScrollonTop = () => {
@@ -48,13 +46,10 @@ const FloatingButton = () => {
     };
 
     useEffect(() => {
-        // annyangInstance üçün tipi `any` olaraq təyin edirik
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let annyangInstance: any;
 
-        // Speech Recognition API dəstəyini yoxlayın
         if (typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition)) {
-            setIsSpeechRecognitionSupported(true); // API dəstəklənir
+            setIsSpeechRecognitionSupported(true);
 
             import('annyang')
                 .then((module) => {
@@ -72,16 +67,16 @@ const FloatingButton = () => {
                         annyangInstance.start();
                     } else {
                         console.error("Annyang module is undefined after import.");
-                        setIsSpeechRecognitionSupported(false); // Annyang yüklənməsə dəstəyi sıfırla
+                        setIsSpeechRecognitionSupported(false); 
                     }
                 })
                 .catch((error) => {
                     console.error("Failed to load annyang:", error);
-                    setIsSpeechRecognitionSupported(false); // Yüklənmə uğursuz olsa dəstəyi sıfırla
+                    setIsSpeechRecognitionSupported(false); 
                 });
         } else {
             console.warn("Speech Recognition API is not supported in this browser or environment.");
-            setIsSpeechRecognitionSupported(false); // API dəstəklənmir
+            setIsSpeechRecognitionSupported(false); 
         }
 
         return () => {
@@ -98,16 +93,14 @@ const FloatingButton = () => {
                 <button
                     onClick={handleScrollonTop}
                     id='voice-btn'
-                    // Əgər Speech Recognition dəstəklənmirsə, düyməni deaktiv edin
                     disabled={!isSpeechRecognitionSupported}
                     className={`${!isSpeechRecognitionSupported ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                     <Image
                         src="/images/upbuttonimage.png"
                         alt="Up Arrow"
-                        // Optimal ölçülər üçün width və height-i birgə qeyd edin
-                        width={100} // Bu ölçüləri öz ehtiyacınıza görə dəyişə bilərsiniz
-                        height={100} // Şəkilin aspekt nisbətini qorumaq üçün eyni dəyər seçdim (square image üçün)
+                        width={100} 
+                        height={100} 
                         className="hover:scale-110 transition-transform duration-300"
                     />
                 </button>
@@ -124,8 +117,7 @@ const FloatingButton = () => {
                     width={30}
                     height={30}
                     alt="ball"
-                    // 'ball' şəkli üçün də width/height balansını qoruyun
-                    className="object-contain" // Aspect ratio-nu qorumaq üçün object-contain əlavə etdim
+                    className="object-contain" 
                 />
             </div>
         </div>
