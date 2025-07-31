@@ -1,5 +1,7 @@
+// src/app/page.tsx
 import FloatingButton from "@/components/FloatingButton";
 import { RotateCcw, ArrowUpFromDot, Footprints, Goal } from "lucide-react";
+// import Image from "next/image"; // Bu sətri silin
 
 export default function Home() {
   return (
@@ -24,28 +26,28 @@ export default function Home() {
           <div className="box p-8 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center border-b-4 border-indigo-400">
             <RotateCcw size={48} className="text-indigo-600 mb-4" />
             <p className="text-lg text-gray-800">
-              🗣️ Say <span className="font-extrabold text-indigo-700">{"\"rotate\""}</span> to rotate the button
+              🗣️ Say <span className="font-extrabold text-indigo-700">"rotate"</span> to rotate the button
             </p>
           </div>
 
           <div className="box p-8 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center border-b-4 border-purple-400">
             <ArrowUpFromDot size={48} className="text-purple-600 mb-4" />
             <p className="text-lg text-gray-800">
-              🗣️ Say <span className="font-extrabold text-purple-700">up</span> to scroll to the top
+              🗣️ Say <span className="font-extrabold text-purple-700">"up"</span> to scroll to the top
             </p>
           </div>
 
           <div className="box p-8 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center border-b-4 border-teal-400">
             <Footprints size={48} className="text-teal-600 mb-4" />
             <p className="text-lg text-gray-800">
-              🗣️ Say <span className="font-extrabold text-teal-700">jump</span> to make the button jump
+              🗣️ Say <span className="font-extrabold text-teal-700">"jump"</span> to make the button jump
             </p>
           </div>
 
           <div className="box p-8 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center border-b-4 border-pink-400">
             <Goal size={48} className="text-pink-600 mb-4" />
             <p className="text-lg text-gray-800">
-              ⚽ Say <span className="font-extrabold text-pink-700">kick</span> to shoot the ball
+              ⚽ Say <span className="font-extrabold text-pink-700">"kick"</span> to shoot the ball
             </p>
           </div>
         </div>
@@ -57,10 +59,10 @@ export default function Home() {
             Scroll Down to See This!
           </h2>
           <p className="text-xl text-gray-700 mb-6">
-            This section is intentionally tall so you can test the up command.
+            This section is intentionally tall so you can test the "up" command.
           </p>
           <p className="text-2xl font-semibold text-purple-700 animate-pulse">
-            🗣️ Now, say <span className="font-extrabold">up</span> to return to the top!
+            🗣️ Now, say <span className="font-extrabold">"up"</span> to return to the top!
           </p>
         </div>
       </div>
