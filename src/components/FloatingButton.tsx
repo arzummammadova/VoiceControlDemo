@@ -3,7 +3,9 @@
 
 import React, { useEffect } from 'react'
 import Image from 'next/image';
-import annyang from 'annyang';
+// import annyang from 'annyang';
+declare const annyang: any; 
+
 const FloatingButton = () => {
     const handleScrollonTop = () => {
         window.scrollTo({
