@@ -4,9 +4,15 @@
 import React, { useEffect } from 'react'
 import Image from 'next/image';
 // import annyang from 'annyang';
-declare const annyang: any; 
+declare const annyang: {
+    addCommands: (commands: { [key: string]: () => void }) => void;
+    start: () => void;
+    abort: () => void;
+} | undefined;
+
 
 const FloatingButton = () => {
+
     const handleScrollonTop = () => {
         window.scrollTo({
             top: 0,
@@ -50,12 +56,6 @@ const FloatingButton = () => {
     };
 
 
-
-
-
-
-
-
     useEffect(() => {
         if (annyang) {
             const commands = {
@@ -71,8 +71,9 @@ const FloatingButton = () => {
         }
 
         return () => {
-            annyang.abort();
-
+            if (annyang) {
+                annyang.abort();
+            }
         };
     }, []);
     return (
